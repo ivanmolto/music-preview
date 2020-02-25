@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-package net.ivanmolto.music
+package net.ivanmolto.music.binding
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingComponent
 import androidx.fragment.app.Fragment
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
-import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
-
-    override fun supportFragmentInjector() = dispatchingAndroidInjector
+/**
+ * A Data Binding Component implementation for fragments.
+ */
+class FragmentDataBindingComponent(fragment: Fragment) : DataBindingComponent {
+    private val adapter = FragmentBindingAdapters(fragment)
+    override fun getFragmentBindingAdapters() = adapter
 }

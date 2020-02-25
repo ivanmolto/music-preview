@@ -16,22 +16,24 @@
 
 package net.ivanmolto.music
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import android.app.Activity
+import android.app.Application
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasActivityInjector
+import net.ivanmolto.music.di.AppInjector
+import timber.log.Timber
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
-
+class MusicApp : Application(), HasActivityInjector {
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun onCreate() {
+        super.onCreate()
+        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+
+        AppInjector.init(this)
     }
 
-    override fun supportFragmentInjector() = dispatchingAndroidInjector
+    override fun activityInjector() = dispatchingAndroidInjector
 }

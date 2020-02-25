@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">CornerMusic</string>
+    <string name="retry">Retry</string>
+    <string name="unknown_error">Unknown Error</string>
+    <string name="search_hint">search songs</string>
+    <string name="search">search songs</string>
+    <string name="empty_search_result">No results for <b>%s</b></string>
+    <string name="menu_music_share">Share</string>
+    <string name="share_text_song">Check out the %s song in the CornerMusic app</string>
+    <string name="start_search">Use the search bar to find songs</string>
 </resources>

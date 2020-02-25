@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="zero_margin">0dp</dimen>
+    <dimen name="min_margin">1dp</dimen>
+    <dimen name="half_default_margin">4dp</dimen>
+    <dimen name="default_margin">8dp</dimen>
+    <dimen name="double_default_margin">16dp</dimen>
+    <dimen name="db_fourfold_default_margin">64dp</dimen>
+    <dimen name="exoplayer">100dp</dimen>
+    <dimen name="cover">200dp</dimen>
+    <dimen name="editor_absolute_y">247dp</dimen>
+    <dimen name="track_size">368dp</dimen>
+</resources>

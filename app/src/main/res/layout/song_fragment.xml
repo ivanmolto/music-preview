@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="androidx.lifecycle.LiveData"/>
+
+        <import type="net.ivanmolto.music.vo.Song"/>
+
+        <variable
+            name="args"
+            type="net.ivanmolto.music.ui.song.SongFragmentArgs" />
+
+        <variable
+            name="song"
+            type="LiveData&lt;Song>" />
+
+        <variable
+            name="retryCallback"
+            type="net.ivanmolto.music.ui.common.RetryCallback" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="@dimen/cover"
+            android:layout_height="@dimen/cover"
+            app:visibleGone="@{song.cover != null}"
+            app:srcCompat="@android:drawable/ic_popup_sync"
+            app:imageUrl="@{song.cover}"
+            android:contentDescription="@{song.track}"
+            android:gravity="center_horizontal"
+            android:background="@color/colorBackground"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/track"
+            android:layout_width="@dimen/zero_margin"
+            android:layout_height="wrap_content"
+            app:visibleGone="@{song.track != null}"
+            android:text="@{song.track}"
+            android:textStyle="bold"
+            android:textColor="@color/colorSearch"
+            android:gravity="center_horizontal"
+            style="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cover"
+            tools:text="Track title" />
+
+        <TextView
+            android:id="@+id/artist"
+            android:layout_width="@dimen/zero_margin"
+            android:layout_height="wrap_content"
+            app:visibleGone="@{song.artist != null}"
+            android:text="@{song.artist}"
+            android:textStyle="bold"
+            android:textColor="@color/colorSearch"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/default_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/track"
+            tools:text="Artist name" />
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/mplayer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/exoplayer"
+            android:layout_marginTop="@dimen/double_default_margin"
+            app:show_buffering="when_playing"
+            app:layout_constraintTop_toBottomOf="@+id/artist" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

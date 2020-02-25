@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="song"
+            type="net.ivanmolto.music.vo.Song" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/half_default_margin"
+        android:layout_marginRight="@dimen/half_default_margin"
+        app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="@dimen/db_fourfold_default_margin"
+                android:layout_height="@dimen/db_fourfold_default_margin"
+                app:visibleGone="@{song.thumbnail != null}"
+                app:imageUrl="@{song.thumbnail}"
+                android:contentDescription="@{song.track}"
+                android:background="@color/colorBackground"
+                app:srcCompat="@android:drawable/ic_popup_sync"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/track"
+                android:layout_width="@dimen/track_size"
+                android:layout_height="wrap_content"
+                app:visibleGone="@{song.track != null}"
+                app:minimify="@{song.track}"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:singleLine="true"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/thumbnail"
+                tools:text="track name" />
+
+            <TextView
+                android:id="@+id/genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:visibleGone="@{song.genre != null}"
+                android:text="@{song.genre}"
+                android:gravity="center"
+                android:singleLine="true"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                app:layout_constraintTop_toBottomOf="@+id/track"
+                app:layout_constraintStart_toEndOf="@+id/thumbnail"
+                tools:text="genre" />
+
+            <TextView
+                android:id="@+id/release"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:visibleGone="@{song.release != null}"
+                app:dateYear="@{song.release}"
+                android:gravity="center"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                app:layout_constraintTop_toBottomOf="@+id/track"
+                app:layout_constraintStart_toEndOf="@+id/genre"
+                tools:text="year" />
+
+            <TextView
+                android:id="@+id/duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:visibleGone="@{song.duration != null}"
+                app:millisToTime="@{song.duration}"
+                android:gravity="center"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                app:layout_constraintTop_toBottomOf="@+id/track"
+                app:layout_constraintStart_toEndOf="@+id/release"
+                tools:text="duration" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:visibleGone="@{song.price != null}"
+                app:floatToString="@{song.price}"
+                android:gravity="center"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                app:layout_constraintTop_toBottomOf="@+id/track"
+                app:layout_constraintStart_toEndOf="@+id/duration"
+                tools:text="price" />
+
+            <TextView
+                android:id="@+id/artist"
+                android:layout_width="@dimen/track_size"
+                android:layout_height="wrap_content"
+                app:visibleGone="@{song.artist != null}"
+                app:minimify="@{song.artist}"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                app:layout_constraintTop_toBottomOf="@+id/genre"
+                app:layout_constraintStart_toEndOf="@+id/thumbnail"
+                tools:layout_editor_absoluteX="@dimen/default_margin"
+                tools:text="artist name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
