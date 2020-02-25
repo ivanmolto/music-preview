@@ -41,5 +41,112 @@ import javax.inject.Inject
  * The UI for displaying the song info
  */
 class SongFragment : Fragment(), Injectable {
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    lateinit var appExecutors: AppExecutors
+
+    var binding by autoCleared<SongFragmentBinding>()
+    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+
+    private val songViewModel: SongViewModel by viewModels {
+        viewModelFactory
+    }
+
+    lateinit var exoPlayer: ExoPlayer
+    lateinit var playerView: PlayerView
+    private val params by navArgs<SongFragmentArgs>()
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val dataBinding = DataBindingUtil.inflate<SongFragmentBinding>(
+            inflater,
+            R.layout.song_fragment,
+            container,
+            false,
+            dataBindingComponent
+        )
+
+        dataBinding.retryCallback = object : RetryCallback {
+            override fun retry() {
+                songViewModel.retry()
+            }
+        }
+
+
+        binding = dataBinding
+        sharedElementReturnTransition = TransitionInflater.from(context).inflateTransition(R.transition.move)
+
+        setHasOptionsMenu(true)
+
+        return dataBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        songViewModel.setId(params.id)
+        songViewModel.setUrlMusic(params.urlMusic)
+        binding.args = params
+        binding.song = songViewModel.song
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        exoPlayer = songViewModel.getMediaPlayer().getPlayer(context!!)
+        playerView = binding.mplayer
+        playerView.player = exoPlayer
+        songViewModel.play(params.urlMusic)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            songViewModel.release()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            songViewModel.release()
+        }
+    }
+
+    // Share
+
+    /*
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_music, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_share -> {
+                createShareIntent()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    // Helper function for calling a share functionality.
+    // Should be used when user presses a share button/menu item.
+    @Suppress("DEPRECATION")
+    private fun createShareIntent() {
+        val shareText = songViewModel.song.value.let { song ->
+            if (song == null) {
+                ""
+            } else {
+                getString(R.string.share_text_song, song.track)
+            }
+        }
+        val shareIntent = ShareCompat.IntentBuilder.from(context!!)
+            .setText(shareText)
+            .setType("text/plain")
+            .createChooserIntent()
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+        startActivity(shareIntent)
+    }
+
+     */
 }

@@ -59,7 +59,6 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("dateYear")
     fun yearify(view: TextView, blurb: String) {
-
         view.text = blurb.take(4)
     }
 }

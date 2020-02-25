@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 // import net.ivanmoto.music.testing.OpenForTesting
 import net.ivanmolto.music.repository.SongRepository
+import net.ivanmolto.music.ui.song.mediaplayer.MediaPlayerImpl
 import net.ivanmolto.music.util.AbsentLiveData
 import net.ivanmolto.music.vo.Song
 import javax.inject.Inject
@@ -29,5 +30,46 @@ import javax.inject.Inject
 // @OpenForTesting
 class SongViewModel @Inject constructor(songRepository: SongRepository) : ViewModel() {
 
+    private val mediaPlayer = MediaPlayerImpl()
 
+    fun getMediaPlayer() = mediaPlayer
+
+    fun play(url: String) = mediaPlayer.play(url)
+
+    fun release() = mediaPlayer.releasePlayer()
+
+    private val _urlMusic = MutableLiveData<String?>()
+    val urlMusic: LiveData<String?>
+        get() = _urlMusic
+
+    fun setUrlMusic(urlMusic: String?) {
+        if (_urlMusic.value != urlMusic) {
+            _urlMusic.value = urlMusic
+        }
+    }
+
+    private val _id = MutableLiveData<Int?>()
+    val id: LiveData<Int?>
+        get() = _id
+
+    val song: LiveData<Song> = _id.switchMap { id ->
+        if (id == null) {
+            AbsentLiveData.create()
+        } else {
+            songRepository.getSong(id)
+        }
+    }
+
+    fun setId(id: Int?) {
+        if (_id.value != id) {
+            _id.value = id
+        }
+    }
+
+    fun retry() {
+
+        _id.value?.let {
+            _id.value = it
+        }
+    }
 }
